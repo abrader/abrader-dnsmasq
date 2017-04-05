@@ -1,59 +1,116 @@
+# Listening interfaces
 <% $dnsmasq::interfaces.each |$inf| { -%>
 interface=<%= $inf %>
 <% } -%>
-# interface=lo
-# interface=ham0
-# interface=p6p2
+
 <% $dnsmasq::no_dhcp_interfaces.each |$inf| { -%>
 no-dhcp-interface=<%= $inf %>
 <% } -%>
-# no-dhcp-interface=lo
-# no-dhcp-interface=ham0
-# no-dhcp-interface=p6p2
 
-local=/pluke.int/
-domain=pluke.int
-#no-poll
+<% if $dnsmasq::local_domain { -%>
+local=/<%= $dnsmasq::local_domain -%>/
+<% } -%>
+<% if $dnsmasq::domain { -%>
+domain=<%= $dnsmasq::domain %>
+<% } -%>
+<% if $dnsmasq::no_poll { -%>
+no-poll
+<% } -%>
+<% if $dnsmasq::enable_dbus { -%>
 enable-dbus
+<% } -%>
+<% if $dnsmasq::all_servers { -%>
 all-servers
+<% } -%>
+<% if $dnsmasq::bogus_priv { -%>
 bogus-priv
+<% } -%>
+<% if $dnsmasq::domain_needed { -%>
 domain-needed
-#local-service
+<% } -%>
+<% if $dnsmasq::local_service { -%>
+local-service
+<% } -%>
+<% if $dnsmasq::localise_queries { -%>
 localise-queries
+<% } -%>
+<% if $dnsmasq::expand_hosts { -%>
 expand-hosts
+<% } -%>
+<% if $dnsmasq::read_ethers { -%>
 read-ethers
-#dns-forward-max=900
-#cache-size=2048
-#log-async=5
-#no-negcache
-#neg-ttl=3600
-#no-resolv
+<% } -%>
+<% if $dnsmasq::dns_forward_max { -%>
+dns-forward-max=<%= $dnsmasq::dns_forward_max %>
+<% } -%>
+<% if $dnsmasq::cache_size { -%>
+cache-size=<%= $dnsmasq::cache_size %>
+<% } -%>
+<% if $dnsmasq::log_async { -%>
+log-async=<%= $dnsmasq::log_async %>
+<% } -%>
+<% if $dnsmasq::no_negcache { -%>
+no-negcache
+<% } -%>
+<% if $dnsmasq::neg_ttl { -%>
+neg-ttl=<%= $dnsmasq::neg_ttl %>
+<% } -%>
+<% if $dnsmasq::no_resolv { -%>
+no-resolv
+<% } -%>
+<% if $dnsmasq::stop_dns_rebind { -%>
 stop-dns-rebind
+<% } -%>
+<% if $dnsmasq::rebind_localhost_ok { -%>
 rebind-localhost-ok
-#clear-on-reload
-resolv-file=/etc/resolv.dnsmasq.conf
+<% } -%>
+<% if $dnsmasq::clear_on_reload { -%>
+clear-on-reload
+<% } -%>
+<% if $dnsmasq::resolv_file { -%>
+resolv-file=<%= $dnsmasq::resolv_file %>
+<% } -%>
 
 # Auth server
-#auth-server=pluke.int,p4p1
-auth-zone=pluke.int,10.1.1.0/24
+<% if $dnsmasq::auth_server { -%>
+auth-server=<%= $dnsmasq::auth_server[0] -%>,<%= $dnsmasq::auth_server[1] %>
+<% } -%>
+<% if $dnsmasq::auth_zone { -%>
+auth-zone=<%= $dnsmasq::auth_zone[0] -%>,<%= $dnsmasq::auth_zone[1] %>
+<% } -%>
 
+<% if $dnsmasq::dhcp_range { -%>
 # DHCP Stuff
-#dhcp-range=10.1.1.201,10.1.1.254
+dhcp-range=<%= $dnsmasq::dhcp_range[0] -%>,<%= $dnsmasq::dhcp_range[1] %>
+<% } -%>
 
+<% if $dnsmasq::dhcp_dns_server { -%>
 #DNS Server
-#dhcp-option=6,10.1.1.1
+dhcp-option=6,<%= $dnsmasq::dhcp_dns_server %>
+<% } -%>
 
+<% if $dnsmasq::dhcp_log_server { -%>
 #Log Server
-#dhcp-option=7,10.1.1.1
+dhcp-option=7,<%= $dnsmasq::dhcp_log_server %>
+<% } -%>
 
+<% if $dnsmasq::dhcp_ntp_server { -%>
 #NTP Server
-#dhcp-option=42,10.1.1.1
+dhcp-option=42,<%= $dnsmasq::dhcp_ntp_server %>
+<% } -%>
 
 #Tell Win7 no proxy
 #dhcp-option=252,"\n"
 
-#dhcp-lease-max=14400
-#dhcp-authoritative
+<% if $dnsmasq::dhcp_lease_max { -%>
+dhcp-lease-max=<%= $dnsmasq::dhcp_lease_max %>
+<% } -%>
 
+<% if $dnsmasq::dhcp_authoritative { -%>
+dhcp-authoritative
+<% } -%>
+
+<% if $dnsmasq::search_domains { -%>
 #Multiple search domains
-#dhcp-option=option:domain-search,pluke.int,pluke.me
+dhcp-option=option:domain-search,<%= join($dnsmasq::search_domains, ',') %>
+<% } -%>
