@@ -4,7 +4,7 @@ class dnsmasq (
   Array[String]             $no_dhcp_interfaces  = ['lo', 'ham0', 'p6p1', 'p6p2'],
   Optional[String]          $local_domain        = 'pluke.int',
   Optional[String]          $domain              = 'pluke.int',
-  Boolean                   $dbus_enabled        = true,
+  Boolean                   $enable_dbus         = true,
   Boolean                   $no_poll             = false,
   Boolean                   $local_service       = false,
   Boolean                   $all_servers         = true,
