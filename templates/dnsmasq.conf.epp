@@ -1,6 +1,20 @@
+<% if $dnsmasq::port { -%>
+# Listening port
+port=<%= $dnsmasq::port %>
+<% } -%>
+
+<% if $dnsmasq::interfaces { -%>
 # Listening interfaces
-<% $dnsmasq::interfaces.each |$inf| { -%>
+  <% $dnsmasq::interfaces.each |$inf| { -%>
 interface=<%= $inf %>
+  <% } -%>
+<% } -%>
+
+<% if $dnsmasq::trust_anchor_config_path { -%>
+# Uncomment these to enable DNSSEC validation and caching:
+# (Requires dnsmasq to be built with DNSSEC option.)
+conf-file=<%= $dnsmasq::trust_anchor_config_path %>
+dnssec
 <% } -%>
 
 <% $dnsmasq::no_dhcp_interfaces.each |$inf| { -%>
@@ -14,9 +28,26 @@ local=/<%= $dnsmasq::local_domain -%>/
 domain=<%= $dnsmasq::domain %>
 <% } -%>
 
+<% if $dnsmasq::dnssec_check_unsigned { -%>
+dnssec-check-unsigned
+<% } -%>
+<% if $dnsmasq::strict_order { -%>
+strict-order
+<% } -%>
 <% if $dnsmasq::no_poll { -%>
 no-poll
 <% } -%>
+
+<% if $dnsmasq::server { -%>
+# Server
+server=<%= join($dnsmasq::server, ',') -%>
+<% } -%>
+
+<% if $dnsmasq::reverse_server { -%>
+# Reverse Server
+server=<%= join($dnsmasq::reverse_server, ',') -%>
+<% } -%>
+
 <% if $dnsmasq::enable_dbus { -%>
 enable-dbus
 <% } -%>
@@ -68,7 +99,7 @@ rebind-localhost-ok
 <% if $dnsmasq::clear_on_reload { -%>
 clear-on-reload
 <% } -%>
-<% if $dnsmasq::resolv_file { -%>
+<% if $dnsmasq::resolv_nameservers { -%>
 resolv-file=<%= $dnsmasq::resolv_file %>
 <% } -%>
 

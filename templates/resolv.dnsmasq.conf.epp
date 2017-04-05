@@ -1,0 +1,3 @@
+<% $dnsmasq::resolv_nameservers.each |$ns| { -%>
+nameserver <%= $ns %>
+<% } -%>
