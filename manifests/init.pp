@@ -50,7 +50,7 @@ class dnsmasq (
   }
 
   service { 'dnsmasq' :
-    ensure  => present,
+    ensure  => running,
     enable  => true,
     require => File['dnsmasq_config_file'],
   }
