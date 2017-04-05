@@ -4,7 +4,7 @@ class dnsmasq (
   Array[String] $no_dhcp_interfaces = ['lo', 'ham0', 'p6p1', 'p6p2']
 ){
 
-  pacakge { 'dnsmasq' :
+  package { 'dnsmasq' :
     ensure => present,
   }
 
@@ -14,7 +14,7 @@ class dnsmasq (
     group   => 'root',
     mode    => '0644',
     path    => '/tmp/dnsmasq.conf',
-    content => epp('dnsmasq.conf.epp'),
+    content => epp('dnsmasq/dnsmasq.conf.epp'),
     require => Package['dnsmasq'],
   }
 
