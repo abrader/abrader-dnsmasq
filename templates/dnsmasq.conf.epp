@@ -4,7 +4,7 @@ interface=<%= $inf %>
 # interface=lo
 # interface=ham0
 # interface=p6p2
-<% $dnsmasq::no_dhcp_infs.each |$inf| { -%>
+<% $dnsmasq::no_dhcp_interfaces.each |$inf| { -%>
 no-dhcp-interface=<%= $inf %>
 <% } -%>
 # no-dhcp-interface=lo
