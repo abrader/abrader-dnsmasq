@@ -1,5 +1,6 @@
 # DNSMasq Puppet Module
 class dnsmasq (
+  String                    $config_path         = '/etc/dnsmasq.conf',
   Array[String]             $interfaces          = ['p6p1'],
   Array[String]             $no_dhcp_interfaces  = ['lo', 'ham0', 'p6p1', 'p6p2'],
   Optional[String]          $local_domain        = 'pluke.int',
@@ -43,9 +44,15 @@ class dnsmasq (
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    path    => '/tmp/dnsmasq.conf',
+    path    => $config_path,
     content => epp('dnsmasq/dnsmasq.conf.epp'),
     require => Package['dnsmasq'],
+  }
+
+  service { 'dnsmasq' :
+    ensure  => present,
+    enable  => true,
+    require => File['dnsmasq_config_file'],
   }
 
 }

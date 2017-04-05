@@ -13,6 +13,7 @@ local=/<%= $dnsmasq::local_domain -%>/
 <% if $dnsmasq::domain { -%>
 domain=<%= $dnsmasq::domain %>
 <% } -%>
+
 <% if $dnsmasq::no_poll { -%>
 no-poll
 <% } -%>
@@ -73,15 +74,15 @@ resolv-file=<%= $dnsmasq::resolv_file %>
 
 # Auth server
 <% if $dnsmasq::auth_server { -%>
-auth-server=<%= $dnsmasq::auth_server[0] -%>,<%= $dnsmasq::auth_server[1] %>
+auth-server=<%= join($dnsmasq::auth_server, ',') -%>
 <% } -%>
 <% if $dnsmasq::auth_zone { -%>
-auth-zone=<%= $dnsmasq::auth_zone[0] -%>,<%= $dnsmasq::auth_zone[1] %>
+auth-zone=<%= join($dnsmasq::auth_zone, ',') -%>
 <% } -%>
 
 <% if $dnsmasq::dhcp_range { -%>
 # DHCP Stuff
-dhcp-range=<%= $dnsmasq::dhcp_range[0] -%>,<%= $dnsmasq::dhcp_range[1] %>
+dhcp-range=<%= join($dnsmasq::dhcp_range, ',') -%>
 <% } -%>
 
 <% if $dnsmasq::dhcp_dns_server { -%>
